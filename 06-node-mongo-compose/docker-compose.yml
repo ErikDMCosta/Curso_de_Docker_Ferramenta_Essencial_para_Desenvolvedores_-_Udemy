@@ -3,15 +3,15 @@ services:
   db:
     image: mongo:3.4
   backend:
-    image: node:8.9.4
+    image: node:8.1
     volumes:
-      - ./backend:/backend
+      - ./backend:/backend:Z
     ports:
       - 3000:3000
     command: bash -c "cd /backend && npm i && node app"
   frontend:
     image: nginx:1.13
     volumes:
-      - ./frontend:/usr/share/nginx/html
+      - ./frontend:/usr/share/nginx/html/:Z
     ports:
-      - 80:80
+      - 8080:80

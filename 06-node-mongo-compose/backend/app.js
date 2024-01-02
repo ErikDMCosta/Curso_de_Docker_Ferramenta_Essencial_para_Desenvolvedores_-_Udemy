@@ -1,33 +1,30 @@
-const express = require('express');
-const restful = require('node-restful');
-const server = express();
-const mongoose = restful.mongoose;
-const bodyParser = require('body-parser');
-const cors = require('cors');
+const express = require('express')
+const restful = require('node-restful')
+const server = express()
+const mongoose = restful.mongoose
+const bodyParser = require('body-parser')
+const cors = require('cors')
 
 // Database
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://db/mydb');
-
-// // Teste
-// server.get('/', (req, res, next) => res.send('Backend'));
+mongoose.Promise = global.Promise
+mongoose.connect('mongodb://db/mydb')
 
 // Middlewares
-server.use(bodyParser.urlencoded({ extended: true }));
-server.use(bodyParser.json());
-server.use(cors());
+server.use(bodyParser.urlencoded({ extended: true }))
+server.use(bodyParser.json())
+server.use(cors())
 
 // ODM
 const Client = restful.model('Client', {
-  name: { type: String, require: true }
-});
+  name: { type: String, required: true }
+})
 
 // Rest API
-Client.methods(['get', 'post', 'put', 'delete']);
-Client.updateOptions({ new: true, runValidators: true });
+Client.methods(['get', 'post', 'put', 'delete'])
+Client.updateOptions({ new: true, runValidators: true })
 
-// Routers
-Client.register(server, '/clients');
+// Routes
+Client.register(server, '/clients')
 
 // Start Server
-server.listen(3000);
+server.listen(3000)
