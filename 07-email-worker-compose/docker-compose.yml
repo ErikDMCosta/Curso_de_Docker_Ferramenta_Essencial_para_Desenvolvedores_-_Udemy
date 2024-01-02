@@ -42,10 +42,16 @@ services:
     networks:
       - banco
       - web
+      - fila
     depends_on:
       - db
+    environment:
+      - DB_name=email_sender
   queue:
     image: redis:3.2
+    volumes:
+      # Dados da fila
+      - fila:/data
     networks:
       - fila
   worker:
