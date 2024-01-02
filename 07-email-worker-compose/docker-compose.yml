@@ -1,7 +1,6 @@
 version: '3'
 volumes:
   dados:
-  fila:
 networks:
   banco:
   web:
@@ -9,8 +8,6 @@ networks:
 services:
   db:
     image: postgres:9.6
-    environment:
-      - POSTGRES_PASSWORD=mypassword
     volumes:
       # Volume dos dados
       - dados:/var/lib/postgresql/data
@@ -45,13 +42,11 @@ services:
       - fila
     depends_on:
       - db
+      - queue
     environment:
-      - DB_name=email_sender
+      - DB_NAME=abc_sender
   queue:
     image: redis:3.2
-    volumes:
-      # Dados da fila
-      - fila:/data
     networks:
       - fila
   worker:

@@ -1,7 +1,7 @@
-import os
 import psycopg2
 import redis
 import json
+import os
 from bottle import Bottle, request
 
 
@@ -9,10 +9,10 @@ class Sender(Bottle):
     def __init__(self):
         super().__init__()
         self.route('/', method='POST', callback=self.send)
-        
+
         redis_host = os.getenv('REDIS_HOST', 'queue')
         self.fila = redis.StrictRedis(host=redis_host, port=6379, db=0)
-        
+
         db_host = os.getenv('DB_HOST', 'db')
         db_user = os.getenv('DB_USER', 'postgres')
         db_name = os.getenv('DB_NAME', 'sender')
@@ -32,8 +32,8 @@ class Sender(Bottle):
         print('Mensagem registrada !')
 
     def send(self):
-        assunto = request.forms.get("assunto")
-        mensagem = request.forms.get("mensagem")
+        assunto = request.forms.get('assunto')
+        mensagem = request.forms.get('mensagem')
 
         self.register_message(assunto, mensagem)
         return 'Mensagem enfileirada ! Assunto: {} Mensagem: {}'.format(
